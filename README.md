@@ -65,28 +65,11 @@ aws configure    # or export AWS_PROFILE / AWS_ACCESS_KEY_ID
 
 ```bash
 # Stage
-cd terragrunt/stage/lambda
-terragrunt init
-terragrunt plan
-terragrunt apply
-
 # Prod
-cd terragrunt/prod/lambda
-terragrunt init
-terragrunt plan
-terragrunt apply
+C:\Users\yuva\Documents\code\terragrunt-lambda\environment>terragrunt run --all plan
+C:\Users\yuva\Documents\code\terragrunt-lambda\environment>terragrunt run --all apply
+C:\Users\yuva\Documents\code\terragrunt-lambda\environment>terragrunt run --all destroy
 ```
-
-## Deploy all environments at once (from terragrunt root)
-
-```bash
-cd terragrunt
-terragrunt run-all init
-terragrunt run-all plan
-terragrunt run-all apply
-```
-
-> `run-all` walks every child directory that contains a `terragrunt.hcl` and applies them in dependency order.
 
 ---
 
@@ -112,13 +95,3 @@ s3://my-bucket/prod/static-html-lambda/terraform.tfstate
 ```
 
 ---
-
-## Tear down
-
-```bash
-# Single env
-cd terragrunt/stage/lambda && terragrunt destroy
-
-# All envs
-cd terragrunt && terragrunt run-all destroy
-```

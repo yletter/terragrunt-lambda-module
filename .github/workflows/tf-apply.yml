@@ -1,0 +1,60 @@
+name: Terraform AWS Lambda Apply
+
+on:
+  push:
+    branches:
+      - mainx  # Change this to your main branch name if different
+  repository_dispatch:
+    types: [trigger-tf-apply]
+  workflow_dispatch:
+
+env:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v6
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.14.0
+
+    - name: Install Terragrunt
+      run: |
+        TG_VERSION=0.55.0
+        curl -L https://github.com/gruntwork-io/terragrunt/releases/download/v${TG_VERSION}/terragrunt_linux_amd64 -o terragrunt
+        chmod +x terragrunt
+        sudo mv terragrunt /usr/local/bin/
+   
+    - name: Verify versions
+      run: |
+        terraform -version
+        terragrunt --version
+   
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v5
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: AWS 
+      shell: bash
+      run: |
+        pwd
+        aws s3 ls
+        env
+
+    - name: Terraform Init
+      run: terragrunt run-all plan
+      working-directory: environment
+
+    - name: Archive Terraform Plan
+      if: always()
+      uses: actions/upload-artifact@v5
+      with:
+        name: tfplan
+        path: terraform/tfplan

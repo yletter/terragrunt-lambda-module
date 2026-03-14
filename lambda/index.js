@@ -32,7 +32,7 @@ exports.handler = async (event) => {
       border-radius: 16px;
       padding: 48px 56px;
       text-align: center;
-      max-width: 500px;
+      max-width: 600px;
       backdrop-filter: blur(10px);
     }
     .badge {
