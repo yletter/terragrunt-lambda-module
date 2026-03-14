@@ -73,6 +73,7 @@ exports.handler = async (event) => {
       <div>⚙️ <span>Function:</span> ${funcName}</div>
       <div>🏷️ <span>Environment:</span> ${environment}</div>
       <div>📦 <span>Runtime:</span> Node.js ${process.version}</div>
+      <div>📦 <span>Tag:</span>v1.0.1</div>
     </div>
   </div>
 </body>
